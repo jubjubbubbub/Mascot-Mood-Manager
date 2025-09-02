@@ -1,0 +1,31 @@
+public enum MascotMood {
+    JackpotHigh,
+    NeutralGrind,
+    SaltySlump,
+    HauntedPanic,
+    GreaseFrenzy,
+    PuzzleFocus
+}
+
+public class MascotMoodManager : MonoBehaviour {
+    public MascotMood currentMood;
+    private int winStreak = 0;
+    private int dudStreak = 0;
+
+    public void UpdateMood(bool isWin, bool isGhostTicket, bool isPuzzleSolved) {
+        if (isWin) {
+            winStreak++;
+            dudStreak = 0;
+            currentMood = MascotMood.JackpotHigh;
+        } else {
+            dudStreak++;
+            winStreak = 0;
+            if (dudStreak >= 3) currentMood = MascotMood.SaltySlump;
+        }
+
+        if (isGhostTicket) currentMood = MascotMood.HauntedPanic;
+        if (isPuzzleSolved) currentMood = MascotMood.PuzzleFocus;
+    }
+
+    public MascotMood GetCurrentMood() => currentMood;
+}
